@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Loading from './components/Loading'
 import { addCashAction, getCashAction, resetCashAction } from './Bll/store/cashReducer';
 import { addCustomerAction, removeCustomerAction } from './Bll/store/customerReducer';
+import { fetchCustomers } from './Bll/store/asyncAction/customers';
 
 function App() {
 
@@ -66,18 +67,25 @@ function App() {
           onClick={() => addCustomer(customer)}
         >addClient</button>
         <button style={{ 'padding': '10px' }}>removeClient</button>
+        <button style={{ 'padding': '10px' }}
+          onClick={() => dispatch(fetchCustomers())}
+        >addManyCustomers</button>
       </div>
       <div style={{ 'fontSize': '25px' }}>
         {
           customers.length > 0 ?
-            <ul style={{ 'maxWidth': '200px', 'margin': ' auto' }}>
+            <ul style={{ 'maxWidth': '100%', 'textAlight': ' center' }}>
               {
                 customers.map((customer, index) => {
-                  return <li
+                  return <div
                     key={customer.id}
                     onClick={() => removeCustomer(customer)}
                     onBlur={(e) => setTimeout(() => { setCustomer(e.target.value = "") }, 100)}
-                  >{index + 1}. {customer.name}</li>
+                  >{index + 1}. {customer.name}
+                    <p>{customer.updated}</p>
+                    <img style={{ 'width': '100px', 'height': '100px' }} src={customer.background_image} alt={customer.slug} />
+                  </div>
+
                 })
               }
             </ul>
